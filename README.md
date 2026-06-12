@@ -56,3 +56,29 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Order Management API
+
+A simple RESTful API for order management, built with Laravel. This project includes data management for Users, Product Categories, Products, and Orders.
+
+## Technology Stack
+* PHP 8.x
+* Laravel 11.x
+* MySQL / MariaDB
+
+## Features
+* User Management (Authentication & CRUD)
+* Product Category Management
+* Product Management
+* Order Tracking and Management
+* Standardized JSON API Responses
+
+## Local Setup Instructions
+
+Follow these steps to run the project on your local machine:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/WisnuCodes/order-management-api.git
+   cd order-management-api
+
