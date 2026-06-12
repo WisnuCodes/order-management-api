@@ -59,26 +59,40 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # Order Management API
 
-A simple RESTful API for order management, built with Laravel. This project includes data management for Users, Product Categories, Products, and Orders.
+A simple and robust RESTful API for order management, built with Laravel 11. This project provides comprehensive data management for Users, Product Categories, Products, and Orders.
 
 ## Technology Stack
-* PHP 8.x
-* Laravel 11.x
-* MySQL / MariaDB
+* **PHP:** 8.2+
+* **Framework:** Laravel 11.x
+* **Database:** MySQL / MariaDB
+* **Tools:** Composer
 
 ## Features
-* User Management (Authentication & CRUD)
-* Product Category Management
-* Product Management
-* Order Tracking and Management
-* Standardized JSON API Responses
+* **User Management:** Authentication & Full CRUD functionality.
+* **Product Category Management:** CRUD operations for organizing products.
+* **Product Management:** Complete product catalog management.
+* **Order Tracking & Management:** Streamlined order placement and status tracking.
+* **Standardized JSON API Responses:** Consistent response structure for success, errors, and validation exceptions.
 
-## Local Setup Instructions
+---
 
-Follow these steps to run the project on your local machine:
+## Langkah-Langkah Instalasi (Local Setup)
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/WisnuCodes/order-management-api.git
-   cd order-management-api
+Ikuti panduan di bawah ini untuk menjalankan proyek ini di komputer lokal Anda:
 
+### 1. Clone & Jalankan Perintah Instalasi
+Buka terminal/command prompt, lalu jalankan rangkaian perintah berikut untuk mengkloning repositori, menginstal dependensi, dan menyiapkan aplikasi:
+
+```bash
+# Clone repositori dan masuk ke direktori proyek
+git clone [https://github.com/WisnuCodes/order-management-api.git](https://github.com/WisnuCodes/order-management-api.git)
+cd order-management-api
+
+# Install semua dependensi PHP via Composer
+composer install
+
+# Salin file konfigurasi environment
+cp .env.example .env
+
+# Generate application key bawaan Laravel
+php artisan key:generate
