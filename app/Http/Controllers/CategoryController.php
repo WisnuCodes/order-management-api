@@ -11,9 +11,6 @@ class CategoryController extends Controller
 {
     use ApiResponse;
 
-    /**
-     * GET /api/categories - Menampilkan semua kategori produk
-     */
     public function index(): JsonResponse
     {
         $categories = ProductCategory::all();
@@ -30,12 +27,9 @@ class CategoryController extends Controller
         return $this->successResponse($data, 'Data kategori berhasil diambil');
     }
 
-    /**
-     * GET /api/categories/{id} - Menampilkan detail kategori beserta daftar produknya
-     */
     public function show(int $id): JsonResponse
     {
-        $category = ProductCategory::with('products.seller')->find($id);
+        $category = ProductCategory::query()->with('products.seller')->find($id);
 
         if (!$category) {
             return $this->errorResponse('Data tidak ditemukan', 404);
@@ -66,9 +60,6 @@ class CategoryController extends Controller
             ], 'Detail kategori berhasil diambil');
     }
 
-    /**
-     * POST /api/categories - Menambahkan kategori produk baru
-     */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -91,12 +82,9 @@ class CategoryController extends Controller
         ], 'Kategori berhasil ditambahkan', 201);
     }
 
-    /**
-     * PUT /api/categories/{id} - Update kategori produk
-     */
     public function update(Request $request, int $id): JsonResponse
     {
-        $category = ProductCategory::find($id);
+        $category = ProductCategory::query()->find($id);
 
         if (!$category) {
             return $this->errorResponse('Data tidak ditemukan', 404);
@@ -122,23 +110,19 @@ class CategoryController extends Controller
         ], 'Kategori berhasil diupdate');
     }
 
-    /**
-     * DELETE /api/categories/{id} - Menghapus kategori (jika tidak ada produk terkait)
-     */
     public function destroy(int $id): JsonResponse
     {
-        $category = ProductCategory::find($id);
+        $category = ProductCategory::query()->find($id);
 
         if (!$category) {
             return $this->errorResponse('Data tidak ditemukan', 404);
         }
 
-        // Cek apakah ada produk yang menggunakan kategori ini
         if ($category->products()->count() > 0) {
             return $this->errorResponse('Kategori tidak dapat dihapus karena masih memiliki produk terkait', 409);
         }
 
-        $category->delete();
+        ProductCategory::destroy($id);
 
         return $this->successResponse(null, 'Kategori berhasil dihapus');
     }

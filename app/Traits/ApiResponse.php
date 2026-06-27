@@ -43,4 +43,9 @@ trait ApiResponse
             'errors' => $errors,
         ], 422);
     }
+
+    protected function unauthorizedResponse(string $message = 'Akses ditolak (Unauthorized)'): JsonResponse
+    {
+        return $this->errorResponse($message, 403);
+    }
 }

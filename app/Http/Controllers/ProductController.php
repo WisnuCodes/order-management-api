@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -11,9 +12,27 @@ class ProductController extends Controller
 {
     use ApiResponse;
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $products = Product::with(['seller', 'category'])->get();
+        $query = Product::with(['seller', 'category']);
+
+        if ($request->has('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->has('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->has('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        $products = $query->get();
 
         $data = $products->map(function ($product) {
             return $this->formatProduct($product);
@@ -22,9 +41,6 @@ class ProductController extends Controller
         return $this->successResponse($data, 'Data produk berhasil diambil');
     }
 
-    /**
-     * GET /api/products/{id} - Menampilkan detail produk berdasarkan ID
-     */
     public function show(int $id): JsonResponse
     {
         $product = Product::with(['seller', 'category'])->find($id);
@@ -36,11 +52,12 @@ class ProductController extends Controller
         return $this->successResponse($this->formatProduct($product), 'Detail produk berhasil diambil');
     }
 
-    /**
-     * POST /api/products - Menambahkan produk baru (hanya seller)
-     */
     public function store(Request $request): JsonResponse
     {
+        if ($request->user()->role !== 'seller') {
+            return $this->errorResponse('Hanya seller yang dapat menambahkan produk', 403);
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -51,9 +68,7 @@ class ProductController extends Controller
             'thumbnail' => 'nullable|string',
             'status' => 'in:active,inactive'
         ]);
-
-        // Mock: Set seller_id dari user yang sedang login (sementara di-hardcode)
-        $validated['seller_id'] = 1;
+        $validated['seller_id'] = $request->user()->user_id;
 
         $product = Product::create($validated);
         $product->load(['seller', 'category']);
@@ -61,19 +76,15 @@ class ProductController extends Controller
         return $this->successResponse($this->formatProduct($product), 'Produk berhasil ditambahkan', 201);
     }
 
-    /**
-     * PUT /api/products/{id} - Update data produk (hanya owner/seller)
-     */
     public function update(Request $request, int $id): JsonResponse
     {
-        $product = Product::find($id);
+        $product = Product::query()->find($id);
 
         if (!$product) {
             return $this->errorResponse('Data tidak ditemukan', 404);
         }
-
-        $currentUserId = 1;
-        if ($product->seller_id !== $currentUserId) {
+        $currentUserId = $request->user()->user_id;
+        if ($request->user()->role !== 'seller' || $product->seller_id !== $currentUserId) {
             return $this->unauthorizedResponse();
         }
 
@@ -94,30 +105,23 @@ class ProductController extends Controller
         return $this->successResponse($this->formatProduct($product), 'Produk berhasil diupdate');
     }
 
-    /**
-     * DELETE /api/products/{id} - Menghapus produk (hanya owner/seller)
-     */
-    public function destroy(int $id): JsonResponse
+    public function destroy(Request $request, int $id): JsonResponse
     {
-        $product = Product::find($id);
+        $product = Product::query()->find($id);
 
         if (!$product) {
             return $this->errorResponse('Data tidak ditemukan', 404);
         }
-
-        $currentUserId = 1;
-        if ($product->seller_id !== $currentUserId) {
+        $currentUserId = $request->user()->user_id;
+        if ($request->user()->role !== 'seller' || $product->seller_id !== $currentUserId) {
             return $this->unauthorizedResponse();
         }
 
-        $product->delete();
+        Product::destroy($id);
 
         return $this->successResponse(null, 'Produk berhasil dihapus');
     }
 
-    /**
-     * Format product data sesuai response yang diminta
-     */
     private function formatProduct(Product $product): array
     {
         return [
