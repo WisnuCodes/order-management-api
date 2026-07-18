@@ -74,7 +74,7 @@ class AdminController extends Controller implements HasMiddleware
 
         $request->validate([
             'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|unique:users,email,'.$id.',user_id',
+            'email' => 'sometimes|email|unique:User,email,'.$id.',user_id',
             'role' => 'sometimes|in:buyer,seller,admin',
             'balance' => 'sometimes|numeric|min:0'
         ]);
