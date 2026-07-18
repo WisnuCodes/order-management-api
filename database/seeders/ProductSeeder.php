@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         } else {
-            $sellerId = $seller->id;
+            $sellerId = $seller->user_id;
         }
 
         if (!DB::table('User')->where('email', 'jane@example.com')->exists()) {
@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         } else {
-            $cat1Id = $cat1->id;
+            $cat1Id = $cat1->category_id;
         }
 
         $cat2 = DB::table('Product_Category')->where('name', 'Source Code')->first();
@@ -61,7 +61,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         } else {
-            $cat2Id = $cat2->id;
+            $cat2Id = $cat2->category_id;
         }
 
         // Buat Products
