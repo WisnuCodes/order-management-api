@@ -65,6 +65,30 @@ class AdminController extends Controller implements HasMiddleware
         return $this->successResponse(null, 'User deleted successfully');
     }
 
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return $this->errorResponse('User not found', 404);
+        }
+
+        $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|unique:users,email,'.$id.',user_id',
+            'role' => 'sometimes|in:buyer,seller,admin',
+            'balance' => 'sometimes|numeric|min:0'
+        ]);
+
+        if ($request->has('name')) $user->name = $request->name;
+        if ($request->has('email')) $user->email = $request->email;
+        if ($request->has('role')) $user->role = $request->role;
+        if ($request->has('balance')) $user->balance = $request->balance;
+
+        $user->save();
+
+        return $this->successResponse($user, 'User updated successfully');
+    }
+
     public function getProducts()
     {
         $products = Product::with(['seller', 'category'])->orderBy('created_at', 'desc')->get();

@@ -22,6 +22,36 @@ class OrderController extends Controller
         return $this->successResponse($data, 'Data pesanan berhasil diambil');
     }
 
+    public function library(Request $request): JsonResponse
+    {
+        // Get successful orders for the authenticated user (buyer)
+        $orders = Order::with(['product', 'product.category'])
+            ->where('buyer_id', $request->user()->user_id)
+            ->where('payment_status', 'success')
+            ->get();
+
+        // Extract products from orders
+        $products = $orders->map(function ($order) {
+            $product = $order->product;
+            if ($product) {
+                return [
+                    'id' => $product->product_id,
+                    'title' => $product->title,
+                    'description' => $product->description,
+                    'price' => (float) $product->price,
+                    'thumbnail' => $product->thumbnail,
+                    'file_url' => $product->file_url,
+                    'category' => $product->category ? $product->category->name : null,
+                    'purchased_at' => $order->created_at,
+                    'transaction_id' => $order->transaction_id
+                ];
+            }
+            return null;
+        })->filter()->values();
+
+        return $this->successResponse($products, 'Data library berhasil diambil');
+    }
+
     public function show(int $id): JsonResponse
     {
         $order = Order::with(['buyer', 'product'])->find($id);

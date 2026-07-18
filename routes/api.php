@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders', [OrderController::class, 'store']);
     Route::put('/orders/{id}', [OrderController::class, 'update']);
     Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
+    
+    Route::get('/buyer/library', [OrderController::class, 'library']);
 
     Route::post('/reviews', [ReviewController::class, 'store']);
     Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
@@ -55,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin Routes
     Route::get('/admin/stats', [AdminController::class, 'stats']);
     Route::get('/admin/users', [AdminController::class, 'getUsers']);
+    Route::put('/admin/users/{id}', [AdminController::class, 'updateUser']);
     Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser']);
     Route::get('/admin/products', [AdminController::class, 'getProducts']);
     Route::delete('/admin/products/{id}', [AdminController::class, 'deleteProduct']);
