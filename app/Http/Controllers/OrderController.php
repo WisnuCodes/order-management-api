@@ -40,7 +40,7 @@ class OrderController extends Controller
                     'description' => $product->description,
                     'price' => (float) $product->price,
                     'thumbnail' => $product->thumbnail,
-                    'file_url' => $product->file_url,
+                    'file_url' => $product->file_path,
                     'category' => $product->category ? $product->category->name : null,
                     'purchased_at' => $order->created_at,
                     'transaction_id' => $order->transaction_id
