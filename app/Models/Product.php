@@ -47,4 +47,14 @@ class Product extends Model
     {
         return $this->hasMany(Order::class, 'product_id', 'product_id');
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class, 'product_id', 'product_id');
+    }
+
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Wishlist::class, 'product_id', 'product_id');
+    }
 }

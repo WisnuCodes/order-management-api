@@ -14,7 +14,9 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $query = Product::with(['seller', 'category']);
+        $query = Product::with(['seller', 'category'])
+                    ->withCount('reviews')
+                    ->withAvg('reviews', 'rating');
 
         if ($request->has('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
@@ -43,7 +45,10 @@ class ProductController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $product = Product::with(['seller', 'category'])->find($id);
+        $product = Product::with(['seller', 'category'])
+                      ->withCount('reviews')
+                      ->withAvg('reviews', 'rating')
+                      ->find($id);
 
         if (!$product) {
             return $this->errorResponse('Data tidak ditemukan', 404);
@@ -124,12 +129,16 @@ class ProductController extends Controller
 
     private function formatProduct(Product $product): array
     {
+        $reviewsCount = $product->reviews_count ?? 0;
+        $rating = $reviewsCount > 0 ? (float) ($product->reviews_avg_rating ?? 0) : 0;
+
         return [
             'id' => $product->product_id,
             'title' => $product->title,
             'description' => $product->description,
             'price' => (float) $product->price,
-            'rating' => (float) $product->rating,
+            'rating' => $rating,
+            'reviews_count' => $reviewsCount,
             'thumbnail' => $product->thumbnail,
             'file_path' => $product->file_path,
             'download_count' => $product->download_count,
