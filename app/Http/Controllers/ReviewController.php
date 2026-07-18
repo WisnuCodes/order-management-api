@@ -11,6 +11,20 @@ use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
 {
+    public function latest()
+    {
+        // Fetch 6 latest reviews across all products, including buyer and product info
+        $reviews = Review::with(['buyer:user_id,name', 'product:product_id,title'])
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return response()->json([
+            'message' => 'Latest reviews retrieved successfully',
+            'data' => $reviews
+        ], 200);
+    }
+
     public function index($product_id)
     {
         $product = Product::find($product_id);
