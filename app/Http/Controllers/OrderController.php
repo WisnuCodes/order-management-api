@@ -13,7 +13,7 @@ class OrderController extends Controller
 
     public function index(): JsonResponse
     {
-        $orders = Order::with(['buyer', 'product'])->get();
+        $orders = Order::with(['buyer', 'product.category', 'product.seller'])->get();
 
         $data = $orders->map(function ($order) {
             return $this->formatOrder($order);
@@ -54,7 +54,7 @@ class OrderController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $order = Order::with(['buyer', 'product'])->find($id);
+        $order = Order::with(['buyer', 'product.category', 'product.seller'])->find($id);
 
         if (!$order) {
             return $this->errorResponse('Data tidak ditemukan', 404);
@@ -126,6 +126,13 @@ class OrderController extends Controller
                 'id' => $order->product->product_id ?? null,
                 'title' => $order->product->title ?? null,
                 'price' => (float) ($order->product->price ?? 0),
+                'thumbnail' => $order->product->thumbnail ?? null,
+                'category' => $order->product->category->name ?? null,
+            ],
+            'seller' => [
+                'id' => $order->product->seller->user_id ?? null,
+                'name' => $order->product->seller->name ?? null,
+                'username' => $order->product->seller->username ?? null,
             ],
             'buyer' => [
                 'id' => $order->buyer->user_id ?? null,
