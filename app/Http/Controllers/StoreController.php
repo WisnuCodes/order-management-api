@@ -54,12 +54,15 @@ class StoreController extends Controller
             ];
         });
 
+        $followersCount = \App\Models\Follow::where('seller_id', $seller->user_id)->count();
+
         return $this->successResponse([
             'seller' => [
                 'id' => $seller->user_id,
                 'name' => $seller->name,
                 'username' => $seller->username,
-                'joined_at' => $seller->created_at ? $seller->created_at->format('Y-m-d') : '-'
+                'joined_at' => $seller->created_at ? $seller->created_at->format('Y-m-d') : '-',
+                'followers_count' => $followersCount
             ],
             'products' => $formattedProducts,
             'total_products' => $formattedProducts->count()

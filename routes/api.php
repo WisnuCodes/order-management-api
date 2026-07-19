@@ -69,4 +69,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/messages', [\App\Http\Controllers\MessageController::class, 'index']);
     Route::get('/messages/{user_id}', [\App\Http\Controllers\MessageController::class, 'show']);
     Route::post('/messages', [\App\Http\Controllers\MessageController::class, 'store']);
+
+    // Follow Routes
+    Route::get('/follows', [\App\Http\Controllers\FollowController::class, 'index']);
+    Route::post('/follows/toggle/{id}', [\App\Http\Controllers\FollowController::class, 'toggle']);
+    Route::get('/follows/check/{id}', [\App\Http\Controllers\FollowController::class, 'check']);
 });

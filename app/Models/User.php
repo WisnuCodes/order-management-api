@@ -46,4 +46,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Wishlist::class, 'user_id', 'user_id');
     }
+
+    /**
+     * Seller: orang-orang yang mem-follow saya
+     */
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'seller_id', 'user_id');
+    }
+
+    /**
+     * Buyer: seller-seller yang saya follow
+     */
+    public function following(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'buyer_id', 'user_id');
+    }
 }
