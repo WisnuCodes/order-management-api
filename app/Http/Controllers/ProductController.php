@@ -150,6 +150,7 @@ class ProductController extends Controller
             'seller' => [
                 'id' => $product->seller->user_id ?? null,
                 'name' => $product->seller->name ?? null,
+                'username' => $product->seller->username ?? null,
             ],
         ];
     }

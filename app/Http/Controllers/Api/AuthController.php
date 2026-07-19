@@ -31,6 +31,13 @@ class AuthController extends Controller
             'balance' => $request->balance ?? 0
         ]);
 
+        $baseSlug = \Illuminate\Support\Str::slug($request->name);
+        if (empty($baseSlug)) {
+            $baseSlug = 'user';
+        }
+        $user->username = $baseSlug . $user->user_id;
+        $user->save();
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return $this->createdResponse([
