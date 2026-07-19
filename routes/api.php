@@ -62,4 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser']);
     Route::get('/admin/products', [AdminController::class, 'getProducts']);
     Route::delete('/admin/products/{id}', [AdminController::class, 'deleteProduct']);
+
+    // Message/Chat Routes
+    Route::get('/messages', [\App\Http\Controllers\MessageController::class, 'index']);
+    Route::get('/messages/{user_id}', [\App\Http\Controllers\MessageController::class, 'show']);
+    Route::post('/messages', [\App\Http\Controllers\MessageController::class, 'store']);
 });
