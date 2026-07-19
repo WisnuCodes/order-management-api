@@ -59,7 +59,7 @@ class StoreController extends Controller
                 'id' => $seller->user_id,
                 'name' => $seller->name,
                 'username' => $seller->username,
-                'joined_at' => $seller->created_at->format('Y-m-d')
+                'joined_at' => $seller->created_at ? $seller->created_at->format('Y-m-d') : '-'
             ],
             'products' => $formattedProducts,
             'total_products' => $formattedProducts->count()
