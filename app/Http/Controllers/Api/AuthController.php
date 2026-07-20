@@ -46,15 +46,16 @@ class AuthController extends Controller
         $user->username = $baseSlug . $user->user_id;
         $user->save();
 
-        // SIMULASI PENGIRIMAN EMAIL OTP
-        // Mengingat SMTP di Railway selalu diblokir Google (timeout),
-        // kita log saja kode OTP-nya dan teruskan ke frontend untuk auto-fill!
-        \Log::info("SIMULASI EMAIL OTP. Ke: $user->email. Kode OTP: $otp");
+        try {
+            Mail::to($user->email)->send(new VerifyEmailOTP($otp, $user->name));
+        } catch (\Throwable $e) {
+            \Log::error('Gagal mengirim email OTP: ' . $e->getMessage());
+        }
 
         return $this->createdResponse([
             'email' => $user->email,
-            'otp_code' => $otp
-        ], 'Registrasi berhasil. Mengarahkan ke halaman verifikasi...');
+            'message' => 'Registrasi berhasil. Silakan cek email Anda untuk kode OTP.'
+        ], 'User successfully registered, pending verification');
     }
 
     public function verifyOtp(Request $request)
