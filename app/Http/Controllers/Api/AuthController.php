@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         try {
             Mail::to($user->email)->send(new VerifyEmailOTP($otp, $user->name));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Kita biarkan user tercipta meskipun email gagal terkirim (bisa di-resend nanti)
             \Log::error('Gagal mengirim email OTP: ' . $e->getMessage());
         }
