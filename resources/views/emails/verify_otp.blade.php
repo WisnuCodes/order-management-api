@@ -1,101 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="utf-8">
-    <title>Verifikasi Email Anda</title>
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
-            color: #334155;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            border: 1px solid #e2e8f0;
-        }
-        .header {
-            background-color: #0f172a;
-            padding: 30px 40px;
-            text-align: center;
-        }
-        .header h1 {
-            color: #ffffff;
-            margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .content {
-            padding: 40px;
-        }
-        .content h2 {
-            font-size: 20px;
-            color: #0f172a;
-            margin-top: 0;
-            font-weight: 600;
-        }
-        .content p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            color: #475569;
-        }
-        .otp-container {
-            background-color: #f1f5f9;
-            border: 1px dashed #cbd5e1;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 30px 0;
-        }
-        .otp-code {
-            font-size: 36px;
-            font-weight: 800;
-            letter-spacing: 8px;
-            color: #2563eb;
-            margin: 0;
-        }
-        .footer {
-            background-color: #f8fafc;
-            padding: 24px 40px;
-            text-align: center;
-            border-top: 1px solid #e2e8f0;
-        }
-        .footer p {
-            font-size: 14px;
-            color: #64748b;
-            margin: 0;
-            line-height: 1.5;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Email Dibitech</title>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Dibitech</h1>
-        </div>
-        <div class="content">
-            <h2>Halo, {{ $name }}!</h2>
-            <p>Terima kasih telah mendaftar di Dibitech. Untuk menyelesaikan proses pendaftaran dan memverifikasi alamat email Anda, silakan gunakan kode One-Time Password (OTP) di bawah ini:</p>
-            
-            <div class="otp-container">
-                <p class="otp-code">{{ $otp }}</p>
-            </div>
-            
-            <p>Kode ini hanya berlaku selama <strong>10 menit</strong>. Jangan pernah membagikan kode ini kepada siapa pun, termasuk pihak yang mengatasnamakan Dibitech.</p>
-            <p>Jika Anda tidak merasa mendaftar akun di Dibitech, Anda dapat mengabaikan atau menghapus email ini.</p>
-        </div>
-        <div class="footer">
-            <p>&copy; {{ date('Y') }} Dibitech. Hak cipta dilindungi undang-undang.</p>
-            <p>Ini adalah email otomatis, mohon tidak membalas ke alamat email ini.</p>
-        </div>
-    </div>
+<body style="background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; margin: 0; padding: 40px 20px; color: #09090b; line-height: 1.6;">
+    
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e4e4e7; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);">
+        <!-- Header -->
+        <tr>
+            <td style="background-color: #09090b; padding: 32px 40px; text-align: center;">
+                <!-- Menggunakan text icon untuk email agar aman di semua klien -->
+                <div style="display: inline-block; background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); width: 48px; height: 48px; border-radius: 12px; line-height: 48px; font-size: 24px; color: white; font-weight: bold; margin-bottom: 12px;">D</div>
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.02em;">Dibitech</h1>
+            </td>
+        </tr>
+        
+        <!-- Body Content -->
+        <tr>
+            <td style="padding: 48px 40px;">
+                <h2 style="font-size: 20px; color: #09090b; margin-top: 0; margin-bottom: 24px; font-weight: 700;">Halo, {{ $name }} 👋</h2>
+                <p style="font-size: 16px; color: #52525b; margin-bottom: 32px; line-height: 1.6;">
+                    Selamat datang di <strong>Dibitech</strong>! Keamanan akun Anda adalah prioritas utama kami. Untuk memverifikasi alamat email dan melanjutkan pendaftaran, silakan gunakan kode OTP eksklusif Anda di bawah ini:
+                </p>
+                
+                <!-- OTP Box -->
+                <div style="background-color: #fafafa; border: 1px solid #e4e4e7; border-radius: 12px; padding: 32px 24px; text-align: center; margin: 32px 0;">
+                    <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #71717a; margin-top: 0; margin-bottom: 12px; font-weight: 600;">KODE VERIFIKASI ANDA</p>
+                    <p style="font-size: 42px; font-weight: 800; letter-spacing: 12px; color: #09090b; margin: 0; font-family: monospace;">
+                        {{ $otp }}
+                    </p>
+                </div>
+                
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                    <tr>
+                        <td style="padding-bottom: 16px;">
+                            <p style="font-size: 14px; color: #52525b; margin: 0; display: flex; align-items: center;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #f59e0b; margin-right: 12px;"></span>
+                                Kode ini akan kedaluwarsa dalam <strong>10 menit</strong>.
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p style="font-size: 14px; color: #52525b; margin: 0; display: flex; align-items: center;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #ef4444; margin-right: 12px;"></span>
+                                Jangan bagikan kode ini kepada pihak mana pun demi keamanan akun Anda.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        
+        <!-- Footer -->
+        <tr>
+            <td style="background-color: #fafafa; padding: 32px 40px; text-align: center; border-top: 1px solid #e4e4e7;">
+                <p style="font-size: 13px; color: #71717a; margin: 0 0 12px 0;">
+                    Jika Anda tidak membuat permintaan pendaftaran ini, harap abaikan email ini dengan aman.
+                </p>
+                <p style="font-size: 12px; color: #a1a1aa; margin: 0;">
+                    &copy; {{ date('Y') }} Dibitech Inc. Seluruh hak cipta dilindungi.
+                </p>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
