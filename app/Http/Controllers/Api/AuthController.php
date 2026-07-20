@@ -46,16 +46,14 @@ class AuthController extends Controller
         $user->username = $baseSlug . $user->user_id;
         $user->save();
 
-        try {
-            Mail::to($user->email)->send(new VerifyEmailOTP($otp, $user->name));
-        } catch (\Throwable $e) {
-            // Kita biarkan user tercipta meskipun email gagal terkirim (bisa di-resend nanti)
-            \Log::error('Gagal mengirim email OTP: ' . $e->getMessage());
-        }
+        // HAPUS SEMENTARA: Pengiriman email via SMTP Gmail sering diblokir oleh Google dari server Railway
+        // yang menyebabkan proses tersangkut (hang) hingga Nginx timeout dan menghasilkan "Network Error".
+        // Sebagai alternatif untuk testing, kita kembalikan saja kode OTP-nya di pesan sukses.
 
         return $this->createdResponse([
             'email' => $user->email,
-            'message' => 'Registrasi berhasil. Silakan cek email Anda untuk kode OTP.'
+            'otp_code' => $otp, // KODE OTP DIKEMBALIKAN LANGSUNG UNTUK TESTING
+            'message' => "Registrasi berhasil. (KODE OTP ANDA: $otp) Silakan gunakan kode tersebut untuk verifikasi."
         ], 'User successfully registered, pending verification');
     }
 
