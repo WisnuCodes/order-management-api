@@ -21,11 +21,23 @@ class User extends Authenticatable
         'password',
         'role',
         'balance',
+        'otp_code',
+        'otp_expires_at',
+        'email_verified_at'
     ];
 
     protected $hidden = [
         'password',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'otp_expires_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     public function products(): HasMany
     {
