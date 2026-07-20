@@ -44,4 +44,12 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 403);
             }
         });
+        $exceptions->render(function (\Throwable $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Server Error: ' . $e->getMessage() . ' in ' . basename($e->getFile()) . ':' . $e->getLine(),
+                ], 500);
+            }
+        });
     })->create();
