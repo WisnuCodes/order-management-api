@@ -121,9 +121,9 @@ class AuthController extends Controller
 
         try {
             Mail::to($user->email)->send(new VerifyEmailOTP($otp, $user->name));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             \Log::error('Gagal mengirim email OTP: ' . $e->getMessage());
-            return $this->errorResponse('Gagal mengirim email OTP. Silakan coba beberapa saat lagi.', 500);
+            return $this->errorResponse('Gagal mengirim email OTP. Pastikan konfigurasi SMTP di server (Variables) sudah benar: Port 587 dan TLS.', 500);
         }
 
         return $this->successResponse(null, 'Kode OTP baru telah dikirim ke email Anda.');
